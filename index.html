@@ -263,7 +263,7 @@ function doPost(e) {<br>
 
     <script>
         // Replace this URL with your deployed Google Apps Script URL
-        const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwhAwUmTF8xc7YZf7bwKCA0PYRXHb3p_SOacdpTRUPLqWsdah4Ai3fff0Jid6fViELB2Q/exec';
         
         document.getElementById('contactForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -289,7 +289,7 @@ function doPost(e) {<br>
             
             try {
                 // Check if URL is configured
-                if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL') {
+                if (APPS_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbwhAwUmTF8xc7YZf7bwKCA0PYRXHb3p_SOacdpTRUPLqWsdah4Ai3fff0Jid6fViELB2Q/exec') {
                     throw new Error('Please configure your Google Apps Script URL');
                 }
                 
