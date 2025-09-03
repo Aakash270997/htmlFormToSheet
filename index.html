@@ -192,13 +192,7 @@
 </head>
 <body>
     <div class="form-container">
-        <div class="setup-info">
-            <h3>📝 Setup Instructions</h3>
-            <p><strong>1.</strong> Create a Google Sheet with columns: Name, Email, Phone, Message, Timestamp</p>
-            <p><strong>2.</strong> Go to Extensions → Apps Script in your Google Sheet</p>
-            <p><strong>3.</strong> Replace the code with the Apps Script code below</p>
-            <p><strong>4.</strong> Deploy as web app and copy the URL to replace "YOUR_APPS_SCRIPT_URL"</p>
-        </div>
+
 
         <h1>Contact Form</h1>
         
@@ -231,34 +225,6 @@
 
         <div class="message" id="responseMessage"></div>
 
-        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 12px;">
-            <h3 style="margin-bottom: 15px; color: #333;">Google Apps Script Code:</h3>
-            <div class="code-snippet">
-function doPost(e) {<br>
-&nbsp;&nbsp;try {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;const sheet = SpreadsheetApp.getActiveSheet();<br>
-&nbsp;&nbsp;&nbsp;&nbsp;const data = JSON.parse(e.postData.contents);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;sheet.appendRow([<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data.name,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data.email,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data.phone,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data.message,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new Date()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;]);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;return ContentService<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.createTextOutput(JSON.stringify({success: true}))<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.setMimeType(ContentService.MimeType.JSON);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<br>
-&nbsp;&nbsp;} catch (error) {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;return ContentService<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.createTextOutput(JSON.stringify({success: false, error: error.toString()}))<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.setMimeType(ContentService.MimeType.JSON);<br>
-&nbsp;&nbsp;}<br>
-}
-            </div>
-        </div>
     </div>
 
     <script>
@@ -289,7 +255,7 @@ function doPost(e) {<br>
             
             try {
                 // Check if URL is configured
-                if (APPS_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbwhAwUmTF8xc7YZf7bwKCA0PYRXHb3p_SOacdpTRUPLqWsdah4Ai3fff0Jid6fViELB2Q/exec') {
+                if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL') {
                     throw new Error('Please configure your Google Apps Script URL');
                 }
                 
