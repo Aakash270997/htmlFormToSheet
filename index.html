@@ -285,10 +285,14 @@
                 responseMessage.textContent = '❌ ' + error.message;
                 responseMessage.style.display = 'block';
             } finally {
-                // Reset button state
-                submitBtn.disabled = false;
-                btnText.style.opacity = '1';
-                loading.style.display = 'none';
+                // Final cleanup if not already done
+                if (submitBtn.disabled) {
+                    setTimeout(() => {
+                        submitBtn.disabled = false;
+                        btnText.style.opacity = '1';
+                        loading.style.display = 'none';
+                    }, 100);
+                }
             }
         });
     </script>
