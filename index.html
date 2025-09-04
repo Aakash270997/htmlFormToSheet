@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form to Google Sheet</title>
+    <title>Contact Form - Google Sheets</title>
     <style>
         * {
             margin: 0;
@@ -22,63 +22,59 @@
         }
 
         .form-container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+            background: white;
             padding: 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             width: 100%;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s ease forwards;
+            max-width: 600px;
         }
 
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        h1 {
+        .form-header {
             text-align: center;
-            color: #333;
             margin-bottom: 30px;
-            font-size: 2rem;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        }
+
+        .form-header h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .form-header p {
+            color: #666;
+            font-size: 1.1em;
         }
 
         .form-group {
-            margin-bottom: 25px;
-            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
-            color: #555;
+            color: #333;
             font-weight: 600;
-            font-size: 0.95rem;
         }
 
-        input, textarea, select {
+        input, select, textarea {
             width: 100%;
             padding: 15px;
-            border: 2px solid #e1e8ed;
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: #fff;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
         }
 
-        input:focus, textarea:focus, select:focus {
+        input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-            transform: translateY(-2px);
         }
 
         textarea {
@@ -87,213 +83,187 @@
         }
 
         .submit-btn {
-            width: 100%;
-            padding: 16px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            padding: 15px 40px;
             border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
+            border-radius: 50px;
+            font-size: 18px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            transition: transform 0.2s ease;
+            width: 100%;
         }
 
         .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
         }
 
         .submit-btn:disabled {
-            opacity: 0.7;
+            background: #ccc;
             cursor: not-allowed;
             transform: none;
         }
 
-        .loading {
-            display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .loading::after {
-            content: '';
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ffffff;
-            border-top: 2px solid transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .message {
+        .status-message {
             margin-top: 20px;
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 10px;
             text-align: center;
             font-weight: 600;
             display: none;
         }
 
-        .success {
-            background-color: #d4edda;
+        .status-success {
+            background: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
         }
 
-        .error {
-            background-color: #f8d7da;
+        .status-error {
+            background: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
 
-        .setup-info {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            color: #856404;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
         }
 
-        .setup-info h3 {
-            margin-bottom: 10px;
-            color: #856404;
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
-        .setup-info p {
-            margin-bottom: 8px;
-            line-height: 1.5;
-        }
-
-        .code-snippet {
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 6px;
-            font-family: monospace;
-            font-size: 0.9rem;
-            margin: 10px 0;
-            border-left: 4px solid #667eea;
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-container {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="form-container">
+        <div class="form-header">
+            <h1>Contact Us</h1>
+            <p>Get in touch with our team</p>
+        </div>
 
-
-        <h1>Contact Form</h1>
-        
         <form id="contactForm">
-            <div class="form-group">
-                <label for="name">Full Name *</label>
-                <input type="text" id="name" name="name" required>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="company">Company</label>
+                    <input type="text" id="company" name="company">
+                </div>
+                
+                <div class="form-group">
+                    <label for="website">Website</label>
+                    <input type="url" id="website" name="website" placeholder="https://">
+                </div>
             </div>
 
             <div class="form-group">
-                <label for="email">Email Address *</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-
-            <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone">
+                <label for="budget">Budget Range</label>
+                <select id="budget" name="budget">
+                    <option value="">Select budget range...</option>
+                    <option value="< $2k">&lt; $2,000</option>
+                    <option value="$2k–$5k">$2,000 - $5,000</option>
+                    <option value="$5k–$10k">$5,000 - $10,000</option>
+                    <option value="> $10k">&gt; $10,000</option>
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="message">Message *</label>
-                <textarea id="message" name="message" required placeholder="Enter your message here..."></textarea>
+                <textarea id="message" name="message" required placeholder="Tell us about your project..."></textarea>
             </div>
 
             <button type="submit" class="submit-btn" id="submitBtn">
-                <span class="btn-text">Send Message</span>
-                <div class="loading"></div>
+                Send Message
             </button>
+
+            <div id="statusMessage" class="status-message"></div>
         </form>
-
-        <div class="message" id="responseMessage"></div>
-
     </div>
 
     <script>
-        // Replace this URL with your deployed Google Apps Script URL
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwhAwUmTF8xc7YZf7bwKCA0PYRXHb3p_SOacdpTRUPLqWsdah4Ai3fff0Jid6fViELB2Q/exec';
-        
-        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+        // Replace this URL with your Google Apps Script Web App URL
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxRU2nj9VL1JjKRaSsHtKwsgX2cVeXQ30bPcpVBMCf0lTuvSBwPKhhuWZLp4rhDvvkHRA/exec';
+
+        const form = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const statusMessage = document.getElementById('statusMessage');
+
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const submitBtn = document.getElementById('submitBtn');
-            const btnText = submitBtn.querySelector('.btn-text');
-            const loading = submitBtn.querySelector('.loading');
-            const responseMessage = document.getElementById('responseMessage');
+            // Get form data
+            const formData = new FormData(form);
+            const data = {};
             
-            // Show loading state
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+            
+            console.log('Submitting data:', data);
+            
+            // Update UI
             submitBtn.disabled = true;
-            btnText.style.opacity = '0';
-            loading.style.display = 'block';
-            responseMessage.style.display = 'none';
-            
-            // Collect form data
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                message: document.getElementById('message').value
-            };
+            submitBtn.innerHTML = '<span class="loading-spinner"></span>Sending...';
+            statusMessage.style.display = 'none';
             
             try {
-                // Check if URL is configured
-                if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL') {
-                    throw new Error('Please configure your Google Apps Script URL');
-                }
-                
-                const response = await fetch(APPS_SCRIPT_URL, {
+                await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'cors',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify(data),
+                    mode: "no-cors"
                 });
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    responseMessage.className = 'message success';
-                    responseMessage.textContent = '✅ Message sent successfully! Thank you for contacting us.';
-                    responseMessage.style.display = 'block';
-                    document.getElementById('contactForm').reset();
-                } else {
-                    throw new Error(result.error || 'Submission failed');
-                }
+                // Show generic success message
+                statusMessage.className = 'status-message status-success';
+                statusMessage.textContent = '✅ Message sent! We\'ll get back to you soon.';
+                statusMessage.style.display = 'block';
+                form.reset();
                 
             } catch (error) {
                 console.error('Error:', error);
-                responseMessage.className = 'message error';
-                responseMessage.textContent = '❌ ' + error.message;
-                responseMessage.style.display = 'block';
+                statusMessage.className = 'status-message status-error';
+                statusMessage.textContent = '❌ Error sending message: ' + error.message;
+                statusMessage.style.display = 'block';
             } finally {
-                // Final cleanup if not already done
-                if (submitBtn.disabled) {
-                    setTimeout(() => {
-                        submitBtn.disabled = false;
-                        btnText.style.opacity = '1';
-                        loading.style.display = 'none';
-                    }, 100);
-                }
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Send Message';
             }
+        });
+
+        // Test connection on page load
+        window.addEventListener('load', function() {
+            console.log('Page loaded. Make sure to update GOOGLE_SCRIPT_URL with your actual web app URL.');
         });
     </script>
 </body>
